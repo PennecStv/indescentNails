@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item *)",
+      "Bash(cp \"C:/Users/steve/Documents/project/indescentNails/docs/cahier_des_charges_ongulaire.docx\" /tmp/cdc.docx)",
+      "Bash(cd /tmp)",
+      "Bash(unzip -o cdc.docx -d cdc_extracted/)",
+      "Bash(python3 *)",
+      "Read(//tmp/cdc_extracted/**)",
+      "Bash(ls /tmp/)",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(npx tsx *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

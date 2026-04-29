@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Charte Indescent Nails — convertis en HSL pour shadcn/ui */
+    /* Crème de fond */
+    --background: 28 38% 97%;            /* #FBF7F4 */
+    --foreground: 0 2% 17%;              /* #2B2A2A */
+
+    /* Cards et popovers : ton plus clair */
+    --card: 0 0% 100%;
+    --card-foreground: 0 2% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 2% 17%;
+
+    /* Primary = rose profond (Cherry bloom) */
+    --primary: 357 22% 71%;              /* #C4A5A7 */
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary = vert calme (feuilles cerisier) */
+    --secondary: 130 16% 55%;            /* #7A9E7E */
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted = rose gold doux (fond) */
+    --muted: 354 24% 91%;                /* #EDE0E1 */
+    --muted-foreground: 0 5% 35%;
+
+    /* Accent = rose gold légèrement plus saturé */
+    --accent: 354 24% 91%;
+    --accent-foreground: 357 22% 30%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 354 18% 85%;
+    --input: 354 18% 90%;
+    --ring: 357 22% 71%;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight text-foreground;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto w-full max-w-5xl px-6;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl md:text-4xl text-cherry-leaf mb-2;
+  }
+
+  .section-subtitle {
+    @apply text-sm uppercase tracking-[0.2em] text-cherry-bloom font-medium mb-6;
+  }
+
+  .btn-primary-cta {
+    @apply inline-flex items-center justify-center rounded-full bg-cherry-bloom px-8 py-3 text-sm font-medium uppercase tracking-wider text-white shadow-sm transition hover:bg-cherry-bloom/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cherry-bloom;
+  }
+}
+
+/* Décor branche cerisier — utilisé en fond hero/sections */
+.cherry-branch-bg {
+  background-image: radial-gradient(
+    ellipse at top right,
+    rgba(196, 165, 167, 0.18) 0%,
+    transparent 60%
+  ),
+  radial-gradient(
+    ellipse at bottom left,
+    rgba(122, 158, 126, 0.12) 0%,
+    transparent 55%
+  );
+}

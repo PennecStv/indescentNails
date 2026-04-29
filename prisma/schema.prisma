@@ -1,0 +1,104 @@
+// Indescent Nails — Schéma Prisma (MVP)
+// Base : SQLite en dev, portable vers PostgreSQL en prod (changer provider + types).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NOTE : Les enums (Role, ServiceCategory, SlotStatus, BookingStatus, PhotoType)
+// ne sont pas supportés par SQLite. Ils sont modélisés en TypeScript dans
+// src/lib/enums.ts et stockés en String dans la base.
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  category        String   // ServiceCategory
+  name            String
+  description     String?
+  priceCents      Int
+  durationMinutes Int
+  active          Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  bookings        Booking[]
+
+  @@index([category, sortOrder])
+}
+
+model Slot {
+  id                 String        @id @default(cuid())
+  startAt            DateTime
+  endAt              DateTime
+  status             String        @default("AVAILABLE") // SlotStatus
+  note               String?
+  recurrenceGroupId  String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  booking            Booking?
+
+  @@index([startAt])
+  @@index([status, startAt])
+  @@index([recurrenceGroupId])
+}
+
+model Booking {
+  id                   String   @id @default(cuid())
+  slotId               String   @unique
+  slot                 Slot     @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  serviceId            String
+  service              Service  @relation(fields: [serviceId], references: [id])
+  customerLastName     String
+  customerFirstName    String
+  customerPhone        String
+  customerEmail        String
+  needsRemoval         Boolean  @default(false)
+  conditionsAcceptedAt DateTime
+  status               String   @default("PENDING") // BookingStatus
+  adminMessage         String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  processedAt          DateTime?
+  photos               Photo[]
+
+  @@index([status, createdAt])
+  @@index([customerEmail])
+}
+
+model Photo {
+  id        String  @id @default(cuid())
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  type      String  // PhotoType
+  filename  String
+  mimeType  String
+  sizeBytes Int
+  createdAt DateTime @default(now())
+
+  @@index([bookingId])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+
+  @@index([createdAt])
+}
