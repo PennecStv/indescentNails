@@ -9,6 +9,10 @@
     --background: 28 38% 97%;            /* #FBF7F4 */
     --foreground: 0 2% 17%;              /* #2B2A2A */
 
+    /* Easings éditoriales */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-soft: cubic-bezier(0.32, 0.72, 0, 1);
+
     /* Cards et popovers : ton plus clair */
     --card: 0 0% 100%;
     --card-foreground: 0 2% 17%;
@@ -60,6 +64,10 @@
     @apply mx-auto w-full max-w-5xl px-6;
   }
 
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl px-6 md:px-10;
+  }
+
   .section-title {
     @apply font-serif text-3xl md:text-4xl text-cherry-leaf mb-2;
   }
@@ -71,6 +79,58 @@
   .btn-primary-cta {
     @apply inline-flex items-center justify-center rounded-full bg-cherry-bloom px-8 py-3 text-sm font-medium uppercase tracking-wider text-white shadow-sm transition hover:bg-cherry-bloom/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cherry-bloom;
   }
+
+  /* — Editorial / japandi utilities — */
+
+  .text-display {
+    font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+
+  .text-display-sm {
+    font-family: var(--font-cormorant), "Cormorant Garamond", serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+  }
+
+  .marker {
+    @apply text-[11px] uppercase tracking-[0.3em] text-cherry-bloom font-medium;
+  }
+
+  .editorial-rule {
+    flex: 1;
+    border: none;
+    border-top: 1px dotted theme("colors.foreground / 30%");
+    margin: 0 1rem;
+    align-self: center;
+  }
+
+  /* Numéro de section type magazine */
+  .section-numeral {
+    font-family: var(--font-cormorant), serif;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    color: theme("colors.cherry-bloom");
+    opacity: 0.55;
+  }
+}
+
+/* Grain papier — overlay fixe très léger */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.17  0 0 0 0 0.16  0 0 0 0 0.16  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
 }
 
 /* Décor branche cerisier — utilisé en fond hero/sections */
@@ -85,4 +145,124 @@
     rgba(122, 158, 126, 0.12) 0%,
     transparent 55%
   );
+}
+
+/* Marquee infinie */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-x 42s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Lien éditorial : underline qui se peint au hover */
+.link-editorial {
+  position: relative;
+  transition: color 0.4s var(--ease-out-soft);
+}
+.link-editorial::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+.link-editorial:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Arche / portail pour portraits */
+.shape-arch {
+  border-radius: 50% 50% 8px 8px / 60% 60% 8px 8px;
+}
+
+/* Sway lent — utilisé sur les décors floraux d'arrière-plan */
+@keyframes sway {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+.animate-sway {
+  animation: sway 9s ease-in-out infinite;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-sway { animation: none; }
+}
+
+/* Encre liquide — float subtil pour les éléments éditoriaux */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float-y 6s ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-float { animation: none; }
+}
+
+/* Texte avec gradient cerisier — pour titres signature
+   Couleurs assez sombres pour rester lisibles sur fond cream/rose-gold. */
+.text-cherry-gradient {
+  background: linear-gradient(110deg, #7A9E7E 0%, #B5848B 45%, #8C6770 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Fallback couleur en cas de non-support */
+  -webkit-text-fill-color: transparent;
+}
+
+/* Italique cerisier pour titres — coloré profond, plus saturé que cherry-bloom */
+.text-cherry-deep {
+  color: #9C6F76;
+}
+
+/* Bordure éditoriale en pointillés japonais (tirets longs) */
+.border-dash-editorial {
+  background-image: linear-gradient(to right, currentColor 50%, transparent 0);
+  background-size: 14px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+}
+
+/* Wipe transition pour FillButton — durée et easing personnalisés */
+.fill-wipe {
+  transition: transform 650ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* Petit tag éditorial floating */
+.eyebrow-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(196, 165, 167, 0.35);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: theme("colors.cherry-leaf");
 }

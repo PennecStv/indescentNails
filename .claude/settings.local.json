@@ -12,7 +12,11 @@
       "Bash(npx prisma *)",
       "Bash(npx tsx *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3000__TRACKED_VAR__)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3002__TRACKED_VAR__)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3003__TRACKED_VAR__)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3004__TRACKED_VAR__)"
     ]
   }
 }
