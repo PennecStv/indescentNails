@@ -19,6 +19,8 @@ import { FillButton } from "@/components/public/motion/fill-button";
 import { ParallaxBranch } from "@/components/public/motion/parallax-branch";
 import { CherryBlossom } from "@/components/public/motion/cherry-blossom";
 import { BloomReveal } from "@/components/public/motion/bloom-reveal";
+import { Flower3D } from "@/components/public/motion/flower-3d";
+import { Tilt3D } from "@/components/public/motion/tilt-3d";
 
 export const metadata = {
   title: "Contact",
@@ -30,39 +32,60 @@ export default function ContactPage() {
   return (
     <>
       <section className="relative cherry-branch-bg overflow-hidden">
-        <CherryBranchDecoration className="absolute -top-10 -right-10 w-[480px] opacity-50 pointer-events-none hidden md:block" />
-        <div className="pointer-events-none absolute top-10 right-32 hidden md:block opacity-90 animate-sway">
-          <CherryBlossom size={180} delay={0.4} />
-        </div>
-        <div className="pointer-events-none absolute -bottom-10 -left-10 hidden md:block opacity-50">
-          <CherryBlossom size={160} delay={1.2} withStem={false} />
-        </div>
+        <CherryBranchDecoration className="absolute -top-10 -right-10 w-[480px] opacity-30 pointer-events-none hidden md:block" />
         <div className="hidden lg:block absolute -left-4 bottom-12 text-[8rem] font-serif italic text-cherry-bloom/15 leading-none select-none pointer-events-none">
           nº03
         </div>
-        <div className="container-narrow relative py-24 md:py-32 max-w-4xl">
-          <Reveal>
-            <div className="eyebrow-tag mb-8">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-cherry-bloom animate-pulse" />
-              Contact
-            </div>
-          </Reveal>
-          <h1 className="text-display text-cherry-leaf mb-8">
-            <WordsReveal text="On" staggerChildren={0.08} />{" "}
-            <span className="italic text-cherry-deep">
-              <WordsReveal
-                text="échange ?"
-                delay={0.25}
-                staggerChildren={0.08}
-              />
-            </span>
-          </h1>
-          <Reveal delay={0.7} y={20}>
-            <p className="text-lg text-foreground/75 max-w-xl leading-relaxed border-l-2 border-cherry-bloom/40 pl-5">
-              Pour toute question, le canal le plus rapide reste Instagram.
-              Vous pouvez aussi me laisser un message via le formulaire
-              ci-dessous.
-            </p>
+        <div className="container-narrow relative py-24 md:py-32 grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7 space-y-8">
+            <Reveal>
+              <div className="eyebrow-tag">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-cherry-bloom animate-pulse" />
+                Contact · Réponse sous 24h
+              </div>
+            </Reveal>
+            <h1 className="text-display text-cherry-leaf">
+              <WordsReveal text="On" staggerChildren={0.08} />{" "}
+              <span className="italic text-cherry-deep">
+                <WordsReveal
+                  text="échange ?"
+                  delay={0.25}
+                  staggerChildren={0.08}
+                />
+              </span>
+            </h1>
+            <Reveal delay={0.7} y={20}>
+              <p className="text-lg text-foreground/75 max-w-xl leading-relaxed border-l-2 border-cherry-bloom/40 pl-5">
+                Pour toute question, le canal le plus rapide reste Instagram.
+                Vous pouvez aussi me laisser un message via le formulaire
+                ci-dessous.
+              </p>
+            </Reveal>
+            <Reveal delay={0.9} y={16}>
+              <div className="flex flex-wrap gap-x-10 gap-y-4 pt-6 border-t border-dashed border-border/60">
+                <Stat number="24h" label="Temps de réponse" />
+                <Stat number="3" label="Canaux dispos" />
+                <Stat number="Mar→Sam" label="Disponibilité" />
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal
+            delay={0.5}
+            y={40}
+            className="md:col-span-5 hidden md:block"
+            duration={1}
+          >
+            <Tilt3D intensity={4} depth={10}>
+              <div className="relative aspect-square rounded-full overflow-hidden bg-gradient-to-br from-cherry-bloom/40 via-rose-gold to-cherry-leaf/30 shadow-xl flex items-center justify-center">
+                <Flower3D
+                  size={260}
+                  petalColor="#FBF7F4"
+                  autoRotate
+                  followMouse
+                />
+              </div>
+            </Tilt3D>
           </Reveal>
         </div>
       </section>
@@ -219,5 +242,18 @@ function ContactInfo({
         </span>
       </span>
     </a>
+  );
+}
+
+function Stat({ number, label }: { number: string; label: string }) {
+  return (
+    <div>
+      <div className="font-serif italic text-3xl text-cherry-deep leading-none whitespace-nowrap">
+        {number}
+      </div>
+      <div className="mt-1 text-[10px] uppercase tracking-[0.25em] text-foreground/55">
+        {label}
+      </div>
+    </div>
   );
 }

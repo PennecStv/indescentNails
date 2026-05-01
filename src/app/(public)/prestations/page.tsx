@@ -17,7 +17,8 @@ import {
 import { FillButton } from "@/components/public/motion/fill-button";
 import { ParallaxBranch } from "@/components/public/motion/parallax-branch";
 import { CherryBlossom } from "@/components/public/motion/cherry-blossom";
-import { BloomReveal } from "@/components/public/motion/bloom-reveal";
+import { Flower3D } from "@/components/public/motion/flower-3d";
+import { Tilt3D } from "@/components/public/motion/tilt-3d";
 
 export const metadata = {
   title: "Prestations & tarifs",
@@ -50,41 +51,63 @@ export default async function PrestationsPage() {
   return (
     <>
       <section className="relative cherry-branch-bg overflow-hidden">
-        <CherryBranchDecoration className="absolute -top-10 -right-10 w-[520px] opacity-50 pointer-events-none hidden md:block" />
-        <div className="pointer-events-none absolute -top-10 right-20 hidden md:block opacity-90 animate-sway">
-          <CherryBlossom size={200} delay={0.4} />
-        </div>
-        <div className="pointer-events-none absolute bottom-10 -left-12 hidden md:block opacity-50">
-          <CherryBlossom size={140} delay={1.2} withStem={false} />
-        </div>
+        <CherryBranchDecoration className="absolute -top-10 -right-10 w-[520px] opacity-30 pointer-events-none hidden md:block" />
         {/* Numéro section éditorial */}
         <div className="hidden lg:block absolute -left-4 bottom-12 text-[8rem] font-serif italic text-cherry-bloom/15 leading-none select-none pointer-events-none">
           nº02
         </div>
 
-        <div className="container-narrow relative py-24 md:py-32 max-w-4xl">
-          <Reveal>
-            <div className="eyebrow-tag mb-8">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-cherry-bloom" />
-              La carte
-            </div>
-          </Reveal>
-          <h1 className="text-display text-cherry-leaf mb-8">
-            <WordsReveal text="Une carte pensée" staggerChildren={0.07} />
-            <br />
-            <span className="italic text-cherry-deep">
-              <WordsReveal
-                text="pour vos envies."
-                delay={0.4}
-                staggerChildren={0.07}
-              />
-            </span>
-          </h1>
-          <Reveal delay={0.9} y={20}>
-            <p className="text-lg text-foreground/75 max-w-2xl leading-relaxed border-l-2 border-cherry-bloom/40 pl-5">
-              Tous les tarifs sont indicatifs. La durée approximative vous aide
-              à choisir le bon créneau lors de votre réservation.
-            </p>
+        <div className="container-narrow relative py-24 md:py-32 grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7 space-y-8">
+            <Reveal>
+              <div className="eyebrow-tag">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-cherry-bloom animate-pulse" />
+                La carte · Tarifs indicatifs
+              </div>
+            </Reveal>
+            <h1 className="text-display text-cherry-leaf">
+              <WordsReveal text="Une carte pensée" staggerChildren={0.07} />
+              <br />
+              <span className="italic text-cherry-deep">
+                <WordsReveal
+                  text="pour vos envies."
+                  delay={0.4}
+                  staggerChildren={0.07}
+                />
+              </span>
+            </h1>
+            <Reveal delay={0.9} y={20}>
+              <p className="text-lg text-foreground/75 max-w-xl leading-relaxed border-l-2 border-cherry-bloom/40 pl-5">
+                Tous les tarifs sont indicatifs. La durée approximative vous
+                aide à choisir le bon créneau lors de votre réservation.
+              </p>
+            </Reveal>
+
+            <Reveal delay={1.1} y={16}>
+              <div className="flex flex-wrap gap-x-10 gap-y-4 pt-6 border-t border-dashed border-border/60">
+                <Stat number={`${services.length}`} label="Prestations" />
+                <Stat number={`${grouped.length}`} label="Catégories" />
+                <Stat number="∞" label="Sur mesure" />
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal
+            delay={0.5}
+            y={40}
+            className="md:col-span-5 hidden md:block"
+            duration={1}
+          >
+            <Tilt3D intensity={4} depth={10}>
+              <div className="relative aspect-square rounded-full overflow-hidden bg-gradient-to-br from-rose-gold via-cherry-bloom/40 to-cherry-leaf/30 shadow-xl flex items-center justify-center">
+                <Flower3D
+                  size={260}
+                  petalColor="#FBF7F4"
+                  autoRotate
+                  followMouse
+                />
+              </div>
+            </Tilt3D>
           </Reveal>
         </div>
       </section>
@@ -190,21 +213,50 @@ export default async function PrestationsPage() {
           </article>
         ))}
 
-        <BloomReveal bloomPosition="top" bloomSize={70} className="text-center pt-10">
-          <p className="text-foreground/70 mb-6 max-w-md mx-auto">
-            Une envie précise ? Précisez-le dans votre demande de réservation —
-            on construit ensemble votre rendez-vous.
-          </p>
-          <FillButton
-            href="/reservation"
-            variant="primary"
-            size="lg"
-            iconRight={<ArrowRight className="h-4 w-4" />}
-          >
-            Prendre rendez-vous
-          </FillButton>
-        </BloomReveal>
+        <Reveal y={32}>
+          <div className="rounded-2xl bg-cherry-leaf text-white p-10 md:p-14 text-center relative overflow-hidden mt-10">
+            <CherryBranchDecoration className="absolute top-0 right-0 w-[300px] opacity-15 pointer-events-none" />
+            <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-50 pointer-events-none">
+              <Flower3D
+                size={140}
+                petalColor="#EDE0E1"
+                autoRotate
+              />
+            </div>
+            <div className="relative pt-16">
+              <div className="marker !text-white/70 mb-4">Construisons ensemble</div>
+              <h3 className="font-serif text-2xl md:text-3xl mb-4">
+                Une envie précise ?
+              </h3>
+              <p className="opacity-85 mb-8 max-w-md mx-auto leading-relaxed">
+                Précisez-le dans votre demande de réservation — on construit
+                ensemble votre rendez-vous.
+              </p>
+              <FillButton
+                href="/reservation"
+                variant="white"
+                size="lg"
+                iconRight={<ArrowRight className="h-4 w-4" />}
+              >
+                Prendre rendez-vous
+              </FillButton>
+            </div>
+          </div>
+        </Reveal>
       </section>
     </>
+  );
+}
+
+function Stat({ number, label }: { number: string; label: string }) {
+  return (
+    <div>
+      <div className="font-serif italic text-3xl text-cherry-deep leading-none">
+        {number}
+      </div>
+      <div className="mt-1 text-[10px] uppercase tracking-[0.25em] text-foreground/55">
+        {label}
+      </div>
+    </div>
   );
 }
